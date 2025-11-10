@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Resumen - Expense Splitter{% endblock %}
+{% block content %}
+
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white">Resumen de Balances</div>
+  <div class="card-body">
+    {% if summary %}
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Persona</th>
+          <th>Total Pagado</th>
+          <th>Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in summary %}
+        <tr>
+          <td class="fw-bold">{{ row.person }}</td>
+          <td>${{ "%.2f"|format(row.amount) }}</td>
+          <td>
+            {% if row.balance > 0 %}
+              <span class="text-success fw-bold">+${{ "%.2f"|format(row.balance) }}</span>
+            {% elif row.balance < 0 %}
+              <span class="text-danger fw-bold">-${{ "%.2f"|format(-row.balance) }}</span>
+            {% else %}
+              <span class="text-muted">Saldo cero</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="text-muted">Aún no hay datos para mostrar.</p>
+    {% endif %}
+    {% if transactions %}
+<hr>
+<h5>💸 Pagos</h5>
+<ul class="list-group">
+  {% for t in transactions %}
+  <li class="list-group-item">{{ t }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+  </div>
+</div>
+
+{% endblock %}

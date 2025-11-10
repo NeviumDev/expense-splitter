@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Inicio - Expense Splitter{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-success text-white">Agregar Persona</div>
+      <div class="card-body">
+        <form action="{{ url_for('add_person') }}" method="POST" class="d-flex gap-2">
+          <input type="text" name="name" class="form-control" placeholder="Nombre" required>
+          <button type="submit" class="btn btn-success">Agregar</button>
+        </form>
+      </div>
+      
+    </div>
+    {% if people %}
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-light fw-bold">Personas registradas</div>
+  <ul class="list-group list-group-flush">
+    {% for p in people %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      {{ p.name }}
+      <form action="{{ url_for('delete_person', person_id=p.id) }}" method="POST" style="margin:0;">
+        <button type="submit" class="btn btn-sm btn-outline-danger">🗑</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-info text-white">Agregar Gasto</div>
+      <div class="card-body">
+        <form action="{{ url_for('add_expense') }}" method="POST" class="row g-2">
+          <div class="col-12">
+            <input type="text" name="description" class="form-control" placeholder="Descripción" required>
+          </div>
+          <div class="col-6">
+            <input type="number" name="amount" class="form-control" placeholder="Monto" step="0.01" required>
+          </div>
+          <div class="col-6">
+            <select name="person_id" class="form-select" required>
+              <option value="" disabled selected>Pagado por...</option>
+              {% for p in people %}
+              <option value="{{ p.id }}">{{ p.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-info text-white">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-dark text-white">Gastos Registrados</div>
+      <div class="card-body">
+        {% if expenses %}
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Pagó</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for e in expenses %}
+              <tr>
+                <td>{{ e.description }}</td>
+                <td>${{ "%.2f"|format(e.amount) }}</td>
+                <td>{{ e.payer.name }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="text-muted">Aún no hay gastos registrados.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

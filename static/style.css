@@ -1,0 +1,41 @@
+body {
+    background-color: #f8f9fa;
+    font-family: "Inter", "Segoe UI", sans-serif;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 12px;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  .navbar {
+    border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  table th, table td {
+    vertical-align: middle;
+  }
+  
+  .btn {
+    border-radius: 8px;
+    transition: 0.2s;
+  }
+  
+  .btn:hover {
+    transform: scale(1.03);
+  }
+  
+  input, select {
+    border-radius: 8px !important;
+  }
+  
+  .text-muted {
+    font-style: italic;
+  }
+  
